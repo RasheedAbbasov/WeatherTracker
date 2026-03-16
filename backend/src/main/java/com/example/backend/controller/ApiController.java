@@ -12,7 +12,7 @@ import com.example.backend.service.WeatherService;
 @RestController
 @CrossOrigin(origins = {
     "http://localhost:5173",
-    "https://RasheedAbbasov.github.io/WeatherTracker"
+    "https://rasheedabbasov.github.io/WeatherTracker/"
 })
 public class ApiController {
 
