@@ -32,7 +32,7 @@ function App() {
 
     try {
       const res = await fetch(
-        `${import.meta.env.VITE_API_URL}/weather?location=${encodeURIComponent(query)}`
+        `${import.meta.env.VITE_API_URL}/weather?city=${encodeURIComponent(query)}`
       )
       if (!res.ok) throw new Error('Location not found')
       const data: WeatherData = await res.json()
