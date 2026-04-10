@@ -79,6 +79,7 @@ function App() {
           <p className="condition">{weather.current.condition.text}</p>
         </div>
       )}
+      <p className="backend-note">If info is not laoding please wait for the backend server to boot up (~30 seconds)</p>
     </div>
   )
 }
