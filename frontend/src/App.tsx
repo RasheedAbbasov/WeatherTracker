@@ -49,6 +49,7 @@ function App() {
   }
 
   return (
+<<<<<<< HEAD
     <div className="app">
       <h1>WeatherTracker</h1>
 
@@ -62,6 +63,21 @@ function App() {
         />
         <button onClick={fetchWeather} disabled={loading}>
           {loading ? '...' : 'Search'}
+=======
+    <>
+      <div>
+        <a href="https://vite.dev" target="_blank">
+          <img src={viteLogo} className="logo" alt="Vite logo" />
+        </a>
+        <a href="https://react.dev" target="_blank">
+          <img src={reactLogo} className="logo react" alt="React logo" />
+        </a>
+      </div>
+      <h1>Vite + React (Rasho)</h1>
+      <div className="card">
+        <button onClick={() => setCount((count) => count + 1)}>
+          count is {count}
+>>>>>>> f50fc66d975411b3ad28331f97f22c26174fa5f8
         </button>
       </div>
 
