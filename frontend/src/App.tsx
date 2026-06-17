@@ -1,32 +1,14 @@
 import { useState } from 'react'
 import './App.css'
 
-interface WeatherData {
-  location: {
-    name: string
-    region: string
-    country: string
-    localtime: string
-  }
-  current: {
-    temp_f: number
-    temp_c: number
-    condition: {
-      text: string
-      icon: string
-    }
-  }
-}
-
 function App() {
   const [query, setQuery] = useState('')
-  const [weather, setWeather] = useState<WeatherData | null>(null)
-  const [loading, setLoading] = useState(false)
+  const [weather, setWeather] = useState<any>(null)
   const [error, setError] = useState('')
 
   const fetchWeather = async () => {
     if (!query.trim()) return
-    setLoading(true)
+
     setError('')
     setWeather(null)
 
@@ -34,18 +16,12 @@ function App() {
       const res = await fetch(
         `${import.meta.env.VITE_API_URL}/weather?city=${encodeURIComponent(query)}`
       )
-      if (!res.ok) throw new Error('Location not found')
-      const data: WeatherData = await res.json()
-      setWeather(data)
-    } catch (err: any) {
-      setError(err.message || 'Something went wrong')
-    } finally {
-      setLoading(false)
-    }
-  }
 
-  const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
-    if (e.key === 'Enter') fetchWeather()
+      const data = await res.json()
+      setWeather(data)
+    } catch {
+      setError('Unable to get weather data')
+    }
   }
 
   return (
@@ -58,10 +34,10 @@ function App() {
           placeholder="Enter a city..."
           value={query}
           onChange={(e) => setQuery(e.target.value)}
-          onKeyDown={handleKeyDown}
         />
-        <button onClick={fetchWeather} disabled={loading}>
-          {loading ? '...' : 'Search'}
+
+        <button onClick={fetchWeather}>
+          Search
         </button>
       </div>
 
@@ -69,17 +45,28 @@ function App() {
 
       {weather && (
         <div className="weather-card">
-          <h2>{weather.location.name}, {weather.location.region}</h2>
-          <p className="country">{weather.location.country}</p>
-          <p className="datetime">{weather.location.localtime}</p>
-          <div className="temp-row">
-            <img src={weather.current.condition.icon} alt={weather.current.condition.text} />
-            <span className="temp">{weather.current.temp_f}°F</span>
-          </div>
-          <p className="condition">{weather.current.condition.text}</p>
+          <h2>
+            {weather.location.name}, {weather.location.region}
+          </h2>
+
+          <p>{weather.location.country}</p>
+
+          <p>{weather.location.localtime}</p>
+
+          <img
+            src={weather.current.condition.icon}
+            alt={weather.current.condition.text}
+          />
+
+          <h3>{weather.current.temp_f}°F</h3>
+
+          <p>{weather.current.condition.text}</p>
         </div>
       )}
-      <p className="backend-note">If info is not laoding please wait for the backend server to boot up (~30 seconds)</p>
+
+      <p className="backend-note">
+        If information is not loading, please wait for the backend server to start (~30 seconds).
+      </p>
     </div>
   )
 }
