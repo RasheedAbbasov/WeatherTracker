@@ -7,17 +7,17 @@ function App() {
   const [error, setError] = useState('')
 
   const fetchWeather = async () => {
-    if (!query.trim()) return
+    if (!query.trim()) return //Trims the query string to remove whitespace
 
     setError('')
     setWeather(null)
 
     try {
-      const res = await fetch(
+      const response = await fetch( //Fetches the weather data from the API 
         `${import.meta.env.VITE_API_URL}/weather?city=${encodeURIComponent(query)}`
       )
 
-      const data = await res.json()
+      const data = await response.json() //await is used to wait for the response json to be parsed 
       setWeather(data)
     } catch {
       setError('Unable to get weather data')
@@ -33,7 +33,7 @@ function App() {
           type="text"
           placeholder="Enter a city..."
           value={query}
-          onChange={(e) => setQuery(e.target.value)}
+          onChange={(e) => setQuery(e.target.value)} //Updates the query state when the input value is changed 
         />
 
         <button onClick={fetchWeather}>
