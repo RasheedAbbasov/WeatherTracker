@@ -1,28 +1,48 @@
-import { useState } from 'react'
-import './App.css'
+import { useState } from "react";
+import "./App.css";
 
 function App() {
-  const [query, setQuery] = useState('')
-  const [weather, setWeather] = useState<any>(null)
-  const [error, setError] = useState('')
+  interface Location {
+    latitude: number;
+    longitude: number;
+  }
+  const [query, setQuery] = useState("");
+  const [weather, setWeather] = useState<any>(null);
+  const [error, setError] = useState("");
 
-  const fetchWeather = async () => {
-    if (!query.trim()) return //Trims the query string to remove whitespace
+  const getLocation = () => {
+    if (!navigator.geolocation) {
+      setError("Geolocation is not supported by this browser");
+    }
+    navigator.geolocation.getCurrentPosition(
+      (position) => {
+        const coords = `${position.coords.latitude},${position.coords.longitude}`;
+        console.log(coords);
 
-    setError('')
-    setWeather(null)
+        fetchWeather(coords);
+      },
+      (error) => setError(error.message),
+    );
+  };
+
+  const fetchWeather = async (searchQuery: string) => {
+    if (!searchQuery.trim()) return; //Trims the query string to remove whitespace
+
+    setError("");
+    setWeather(null);
 
     try {
-      const response = await fetch( //Fetches the weather data from the API 
-        `${import.meta.env.VITE_API_URL}/weather?city=${encodeURIComponent(query)}`
-      )
+      const response = await fetch(
+        //Fetches the weather data from the API
+        `${import.meta.env.VITE_API_URL}/weather?q=${encodeURIComponent(searchQuery)}`,
+      );
 
-      const data = await response.json() //await is used to wait for the response json to be parsed 
-      setWeather(data)
+      const data = await response.json(); //await is used to wait for the response json to be parsed
+      setWeather(data);
     } catch {
-      setError('Unable to get weather data')
+      setError("Unable to get weather data");
     }
-  }
+  };
 
   return (
     <div className="app">
@@ -33,12 +53,11 @@ function App() {
           type="text"
           placeholder="Enter a city..."
           value={query}
-          onChange={(e) => setQuery(e.target.value)} //Updates the query state when the input value is changed 
+          onChange={(e) => setQuery(e.target.value)} //Updates the query state when the input value is changed
         />
 
-        <button onClick={fetchWeather}>
-          Search
-        </button>
+        <button onClick={() => fetchWeather(query)}>Search</button>
+        <button onClick={getLocation}>Use My Location</button>
       </div>
 
       {error && <p className="error">{error}</p>}
@@ -65,10 +84,11 @@ function App() {
       )}
 
       <p className="backend-note">
-        If information is not loading, please wait for the backend server to start (~30 seconds).
+        If information is not loading, please wait for the backend server to
+        start (~30 seconds).
       </p>
     </div>
-  )
+  );
 }
 
-export default App
+export default App;
