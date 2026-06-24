@@ -31,7 +31,7 @@ function App() {
     try {
       const response = await fetch(
         //Fetches the weather data from the API
-        `${import.meta.env.VITE_API_URL}/weather?q=${encodeURIComponent(searchQuery)}`,
+        `${import.meta.env.VITE_API_URL}/weather?city=${encodeURIComponent(searchQuery)}`,
       );
 
       //Add response status check here 
