@@ -3,13 +3,13 @@ import "./App.css";
 
 function App() {
   const [query, setQuery] = useState("");
-  const [weather, setWeather] = useState<any>(null);
+  const [weather, setWeather] = useState<any>(null); //Look into using types instead 
   const [error, setError] = useState("");
 
   const getLocation = () => {
     if (!navigator.geolocation) {
       setError("Geolocation is not supported by this browser");
-      return; //Stops execution 
+      return; //Stops execution
     }
     navigator.geolocation.getCurrentPosition(
       (position) => {
@@ -34,7 +34,7 @@ function App() {
         `${import.meta.env.VITE_API_URL}/weather?city=${encodeURIComponent(searchQuery)}`,
       );
 
-      //Add response status check here 
+      //Add response status check here
 
       const data = await response.json(); //await is used to wait for the response json to be parsed
       setWeather(data);
@@ -71,9 +71,9 @@ function App() {
 
           <p>{weather.location.localtime}</p>
 
-          <img 
+          <img
             src={weather.current.condition.icon}
-            alt={weather.current.condition.text} // Gets icon from the API 
+            alt={weather.current.condition.text} // Gets icon from the API
           />
 
           <h3>{weather.current.temp_f}°F</h3>
