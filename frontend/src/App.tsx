@@ -4,15 +4,19 @@ import "./App.css";
 function App() {
   const [query, setQuery] = useState("");
   const [weather, setWeather] = useState<any>(null); //Look into using types instead 
-  const [error, setError] = useState("");
+  const [error, setError] = useState(""); 
+  const [loading, setLoading] = useState(false); //Indicates if the app is loading data
+
+
+  //Add logic for handlign when the user presses the enter key
+
 
   const getLocation = () => {
     if (!navigator.geolocation) {
       setError("Geolocation is not supported by this browser");
       return; //Stops execution
     }
-    navigator.geolocation.getCurrentPosition(
-      (position) => {
+    navigator.geolocation.getCurrentPosition((position) => {
         const coords = `${position.coords.latitude},${position.coords.longitude}`;
         console.log(coords);
 
@@ -25,6 +29,7 @@ function App() {
   const fetchWeather = async (searchQuery: string) => {
     if (!searchQuery.trim()) return; //Trims the query string to remove whitespace
 
+    setLoading(true);
     setError("");
     setWeather(null);
 
@@ -40,6 +45,8 @@ function App() {
       setWeather(data);
     } catch {
       setError("Unable to get weather data");
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -59,7 +66,10 @@ function App() {
         <button onClick={getLocation}>Use My Location</button>
       </div>
 
+
+      {/* Note to self  -- React Conditional Rendering is used here*/}
       {error && <p className="error">{error}</p>}
+      {loading && <p>Loading Weather.....</p>}
 
       {weather && (
         <div className="weather-card">
