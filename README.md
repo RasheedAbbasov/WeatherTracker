@@ -2,7 +2,7 @@
 
 A full-stack weather application that lets users search for real-time weather data by city. Built with a React + TypeScript frontend and a Spring Boot backend that proxies requests to the WeatherAPI.
 
-**Live Demo:** [wather.rasho.ink](https://weather.rasho.ink)
+**Live Demo:** [weather.rasho.ink](https://weather.rasho.ink)
 
 ---
 
@@ -134,7 +134,7 @@ Set the `WEATHER_API_KEY` environment variable in your Render service settings.
 
 CORS is configured on the backend for:
 - `http://localhost:5173` (local dev)
-- `https://rasheedabbasov.github.io` (production)
+- `https://weather.rasho.ink` (production)
 
 If you deploy to a custom domain, update the `@CrossOrigin` annotation in the backend controller.
 
