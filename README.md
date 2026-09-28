@@ -2,7 +2,7 @@
 
 A full-stack weather application that lets users search for real-time weather data by city. Built with a React + TypeScript frontend and a Spring Boot backend that proxies requests to the WeatherAPI.
 
-**Live Demo:** [rasheedabbasov.github.io/WeatherTracker](https://rasheedabbasov.github.io/WeatherTracker)
+**Live Demo:** [wather.rasho.ink](https://weather.rasho.ink)
 
 ---
 
